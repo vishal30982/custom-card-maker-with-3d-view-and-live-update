@@ -4,7 +4,6 @@ import { useState } from "react";
 import Form from "./Form";
 import CardFlip from "./CardFlip";
 import Result from "./Result";
-// import '@mailchimp/mailchimp_marketing';
 
 function App() {
   const [name, setName] = useState('');
@@ -51,16 +50,6 @@ function App() {
       colorAsBack,
     }
   ]
-  // mailchimp.setConfig({
-  //   apiKey: process.env.REACT_APP_MAILCHIMP_API_KEY,
-  //   server: process.env.REACT_APP_MAILCHIMP_SERVER_PREFIX
-  // });
-  // async function call() {
-  //   const response = await mailchimp.ping.get();
-  //   console.log(response);
-  // }
-  
-  // call();
   return (
     <>
       {requestStatus ? <Result result={requestStatus} /> : <Form {...props[0]} />}
