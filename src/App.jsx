@@ -3,6 +3,8 @@ import React from "react";
 import { useState } from "react";
 import Form from "./Form";
 import CardFlip from "./CardFlip";
+import Result from "./Result";
+// import '@mailchimp/mailchimp_marketing';
 
 function App() {
   const [name, setName] = useState('');
@@ -14,35 +16,54 @@ function App() {
   const [colorAsFront, setColorAsFront] = useState(false);
   const [colorAsBack, setColorAsBack] = useState(false);
   const [URL, setURL] = useState('');
+  const [requestStatus, setStatus] = useState();
   const props = [
     {
-      setName: setName, 
-      setSubheading: setSubheading,
-      setFrontColor: setFrontColor,
-      setBackColor: setBackColor,
-      setHeadingColor: setHeadingColor,
-      setSubheadingColor: setSubheadingColor,
-      setURL: setURL,
-      setColorAsFront: setColorAsFront,
-      setColorAsBack: setColorAsBack,
-      colorAsFront: colorAsFront,
-      colorAsBack: colorAsBack
+      setName, 
+      setSubheading,
+      setFrontColor,
+      setBackColor,
+      setHeadingColor,
+      setSubheadingColor,
+      setURL,
+      setColorAsFront,
+      setColorAsBack,
+      setStatus,
+      colorAsFront,
+      colorAsBack,
+      name,
+      subHeading,
+      frontColor,
+      backColor,
+      headingColor,
+      subheadingColor,
+      URL
     },
     {
-      name: name, 
-      subHeading: subHeading,
-      frontColor: frontColor,
-      backColor: backColor,
-      headingColor: headingColor,
-      subheadingColor: subheadingColor, 
-      URL: URL, 
-      colorAsFront: colorAsFront,
-      colorAsBack: colorAsBack
+      name, 
+      subHeading,
+      frontColor,
+      backColor,
+      headingColor,
+      subheadingColor, 
+      URL, 
+      colorAsFront,
+      colorAsBack,
     }
   ]
+  // mailchimp.setConfig({
+  //   apiKey: process.env.REACT_APP_MAILCHIMP_API_KEY,
+  //   server: process.env.REACT_APP_MAILCHIMP_SERVER_PREFIX
+  // });
+  // async function call() {
+  //   const response = await mailchimp.ping.get();
+  //   console.log(response);
+  // }
+  
+  // call();
   return (
     <>
-      <Form {...props[0]} />
+      {requestStatus ? <Result result={requestStatus} /> : <Form {...props[0]} />}
       <br />
       <CardFlip {...props[1]} />
     </>

@@ -13,9 +13,9 @@ body {
     overflow: hidden;
     position: absolute;
     border: 0.5px solid grey;
+    background-color: white;
   }
   #front {
-    background-color: greenyellow;
     /* background: url('../public/images/sample_card_front_1.jpg'); */
     background-position: center;
     background-repeat: no-repeat;
@@ -30,7 +30,6 @@ body {
     margin-left: 15px;
   }
   #back {
-    background-color: tomato;
     transform: rotateY(180deg);
     /* background: url('../public/images/sample_card_back_1.jpg'); */
     background-position: center;
