@@ -10,7 +10,7 @@ const CardFlip = (props) => {
   }
 
   return (
-    <>
+    <div id="card-preview">
      <div id="card-wrapper">
         <div id="card" className={side ? "flip" : ""}>
           <div id="front" style={{backgroundColor: props.backColor && props.colorAsBack ? props.backColor : props.frontColor}}>
@@ -64,7 +64,7 @@ const CardFlip = (props) => {
       <button id="showBtn" onClick={flip}>
         Show front/Back Side
       </button> 
-    </>
+    </div>
   )
 }
 
