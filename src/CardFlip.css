@@ -46,12 +46,6 @@ body {
   top: 5px;
   right: 5px;
 }
-#back span {
-  position: absolute;
-  bottom: 2px;
-  text-align: center;
-  font-size: 10px;
-}
 #card-wrapper {
   width: 8.8cm;
   height: 5.4cm;

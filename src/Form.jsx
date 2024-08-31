@@ -43,26 +43,30 @@ const Form = (props) => {
     Array.from(e.target.children).forEach((e) => {
       let input = e.children[1];
       if (input?.type === "text") {
-        let nameRegex = /^.{2,}$/;
-        if (!nameRegex.test(input.value)) {
-          toast.error("please enter a valid name or sub-heading");
-          setValid(false);
-        } else {
-          setValid(true);
+        if(input.value) {
+          let nameRegex = /^.{2,}$/;
+          if (!nameRegex.test(input.value)) {
+            toast.error("please enter a valid name or designation");
+            setValid(false);
+          } else {
+            setValid(true);
+          }
         }
       } else if (input?.type === "url") {
-        let urlRegex =
-          /^(https:\/\/)?([a-zA-Z0-9.-]+\.[a-zA-Z]{2,})(\/[^\s]*)?$/;
-        if (!urlRegex.test(input.value)) {
-          toast.error("please enter a valid URL");
-          setValid(false);
-        } else {
-          setValid(true);
+        if (input.value) {
+          let urlRegex =
+            /^(https:\/\/)?([a-zA-Z0-9.-]+\.[a-zA-Z]{2,})(\/[^\s]*)?$/;
+          if (!urlRegex.test(input.value)) {
+            toast.error("please enter a valid URL");
+            setValid(false);
+          } else {
+            setValid(true);
+          }
         }
       }
     });
 
-    validInp && handleEmail();
+    // validInp && handleEmail();
   };
 
   return (
@@ -87,7 +91,7 @@ const Form = (props) => {
           style={{ color: "white" }}
           className="form-label"
         >
-          Your Subheading*:
+          Designation:
         </label>
         <input
           type="text"
@@ -95,7 +99,6 @@ const Form = (props) => {
           id="subheading"
           onChange={(e) => props.setSubheading(e.target.value)}
           className="form-control"
-          required
         />
       </div>
 
@@ -105,7 +108,7 @@ const Form = (props) => {
           style={{ color: "white" }}
           className="form-label"
         >
-          Select Name Color*:
+          Select Name Color:
         </label>
         <input
           type="color"
@@ -113,7 +116,6 @@ const Form = (props) => {
           id="headingColor"
           onChange={(e) => props.setHeadingColor(e.target.value)}
           className="form-control"
-          required
         />
       </div>
 
@@ -123,7 +125,7 @@ const Form = (props) => {
           style={{ color: "white" }}
           className="form-label"
         >
-          Select Subheading Color*:
+          Select designation Color:
         </label>
         <input
           type="color"
@@ -131,7 +133,6 @@ const Form = (props) => {
           id="subheadingColor"
           onChange={(e) => props.setSubheadingColor(e.target.value)}
           className="form-control"
-          required
         />
       </div>
 
@@ -141,7 +142,7 @@ const Form = (props) => {
           style={{ color: "white" }}
           className="form-label"
         >
-          Select Front side Color*:{" "}
+          Select Front side Color:{" "}
         </label>
         <input
           type="color"
@@ -149,7 +150,6 @@ const Form = (props) => {
           id="frontColor"
           onChange={(e) => props.setFrontColor(e.target.value)}
           className="form-control"
-          required
         />
         <button
           onClick={sameAsBack}
@@ -165,7 +165,7 @@ const Form = (props) => {
           style={{ color: "white" }}
           className="form-label"
         >
-          Select Back side Color*:{" "}
+          Select Back side Color:{" "}
         </label>
         <input
           type="color"
@@ -173,7 +173,6 @@ const Form = (props) => {
           id="backColor"
           onChange={(e) => props.setBackColor(e.target.value)}
           className="form-control"
-          required
         />
         <button
           onClick={sameAsFront}
@@ -185,7 +184,7 @@ const Form = (props) => {
 
       <div>
         <label htmlFor="url" style={{ color: "white" }} className="form-label">
-          Card URL*:{" "}
+          Card URL:{" "}
         </label>
         <input
           type="url"
@@ -193,14 +192,12 @@ const Form = (props) => {
           id="Card_URL"
           onChange={(e) => props.setURL(e.target.value)}
           className="form-control"
-          required
         />
       </div>
 
       <button
         className="py-1 px-3 mt-3 rounded-pill fw-bold fs-5 text-uppercase"
         type="submit"
-        formNoValidate
       >
         submit
       </button>

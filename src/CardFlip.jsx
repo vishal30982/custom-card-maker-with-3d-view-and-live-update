@@ -57,7 +57,6 @@ const CardFlip = (props) => {
           </div>
           <div id="back" style={{backgroundColor: props.frontColor && props.colorAsFront ? props.frontColor : props.backColor}}>
             <QRious size={120} value={props.URL} style={{border: '10px solid white', borderRadius: '10px'}}/>
-            <span>powered by tapvCard</span>
           </div>
         </div>
       </div>
