@@ -23,12 +23,49 @@ body {
   background-size: 100% 100%;
 }
 #front h1 {
-  margin-top: 10%;
-  margin-left: 10px;
+  margin: 5%;
+  top: 0;
+  left: 0;
+  user-select: none;
+  position: absolute;
 }
-#front i {
-  margin-top: 5px;
-  margin-left: 15px;
+#front i#designation {
+  margin: 5%;
+  top: 48px;
+  left: 0;
+  user-select: none;
+  position: absolute;
+}
+#front div#phone {
+  margin: 5%;
+  top: 112px;
+  left: 0;
+  /* border: 2px solid black; */
+  user-select: none;
+  position: absolute;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+#front div#email {
+  margin: 5%;
+  top: 140px;
+  left: 0;
+  /* border: 2px solid black; */
+  user-select: none;
+  position: absolute;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+#front img {
+  width: 7.5rem;
+  height: 7rem;
+  aspect-ratio: 308 / 238;
+  object-fit: contain;
+  position: absolute;
+  top: 80px;
+  right: 8px;
 }
 #back {
   transform: rotateY(180deg);
@@ -70,15 +107,46 @@ body {
   padding: 10px 5px;
   color: white;
 }
+#downloadBtn {
+  margin-top: 20px;
+  background-color: peru;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 5px;
+  color: black;
+}
 #card-preview {
   position: fixed;
   top: 1rem;
   left: 1rem;
-  background-color: black;
+  z-index: 99999999999;
 }
-@media (max-width: 923px) {
+@media (max-width: 1102px) {
   #card-preview {
-    left: 50%;
-    translate: -50%;
+    left: 0;
+    background-color: black;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
+}
+.material-symbols-outlined {
+  margin-right: 5px;
+  border-radius: 50%;
+  background-color: black;
+  padding: 3px;
+  color: white;
+  font-size: 12px;
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 24
+}
+.moveable-control.moveable-direction.moveable-n.moveable-scalable, .moveable-control.moveable-direction.moveable-s.moveable-scalable, .moveable-control.moveable-direction.moveable-e.moveable-scalable, .moveable-control.moveable-direction.moveable-w.moveable-scalable {
+  display: none;
+}
+.hide {
+  display: none !important;
 }

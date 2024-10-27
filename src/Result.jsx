@@ -4,7 +4,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 const Result = ({result}) => {
   return (
     <div>
-      <h1 className='text-white '>{result === 'success' ? 'Your Request Has Been Sent To Our Experts!' : 'Something went Wrong!'}</h1>
+      <h1 className='text-white' style={{marginTop: '10rem'}}>{result === 'success' ? 'Your Request Has Been Sent To Our Experts!' : 'Something went Wrong!'}</h1>
     </div>
   )
 }

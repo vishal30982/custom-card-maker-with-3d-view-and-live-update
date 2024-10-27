@@ -8,6 +8,10 @@ import Result from "./Result";
 function App() {
   const [name, setName] = useState('');
   const [subHeading, setSubheading] = useState('');
+  const [phone, setPhone] = useState('');
+  const [phoneColor, setPhoneColor] = useState('');
+  const [email, setEmail] = useState('');
+  const [emailColor, setEmailColor] = useState('');
   const [frontColor, setFrontColor] = useState('');
   const [backColor, setBackColor] = useState('');
   const [headingColor, setHeadingColor] = useState('');
@@ -15,7 +19,13 @@ function App() {
   const [colorAsFront, setColorAsFront] = useState(false);
   const [colorAsBack, setColorAsBack] = useState(false);
   const [URL, setURL] = useState('');
+  const [logo, setLogo] = useState('');
+  const [headingFont, setHeadingFont] = useState('');
+  const [subHeadingFont, setSubHeadingFont] = useState('');
   const [requestStatus, setStatus] = useState();
+  const [snapShot, setSnapShot] = useState();
+  const [submitted, setSubmitted] = useState(false);
+  const fonts = [['"Roboto"', "sans-serif"]]
   const props = [
     {
       setName, 
@@ -28,6 +38,10 @@ function App() {
       setColorAsFront,
       setColorAsBack,
       setStatus,
+      setPhone,
+      setEmail,
+      setPhoneColor,
+      setEmailColor,
       colorAsFront,
       colorAsBack,
       name,
@@ -36,7 +50,20 @@ function App() {
       backColor,
       headingColor,
       subheadingColor,
-      URL
+      URL,
+      phone,
+      email,
+      phoneColor,
+      emailColor,
+      logo,
+      setLogo,
+      headingFont,
+      setHeadingFont,
+      subHeadingFont,
+      setSubHeadingFont,
+      setSubmitted,
+      snapShot,
+      fonts
     },
     {
       name, 
@@ -48,6 +75,17 @@ function App() {
       URL, 
       colorAsFront,
       colorAsBack,
+      requestStatus,
+      phone,
+      email,
+      phoneColor,
+      emailColor,
+      logo,
+      headingFont,
+      subHeadingFont,
+      snapShot,
+      setSnapShot,
+      submitted
     }
   ]
   return (
