@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -26,7 +26,7 @@ const Form = (props) => {
     }
   }
 
-  const [validInp, setValid] = useState();
+  const [validInp, setValid] = useState(false);
   const phoneNumberRef = useRef();
   const submitBtnRef = useRef();
 
@@ -45,22 +45,25 @@ const Form = (props) => {
       colorAsBack: props.colorAsBack ? "yes" : "no",
       colorAsFront: props.colorAsFront ? "yes" : "no",
       url: props.URL,
-      logo: props.logo
+      logo: props.logo,
+      snapShot: props.snapShot
     };
     try {
       const emailStatus = await sendEmail(dataToMail);
       props.setStatus("success");
-      console.log("success")
     } catch (error) {
       props.setStatus("fail");
-      console.log(error)
     }
   }
 
+  useEffect(() => {
+    if(props.snapShot && validInp) {
+      handleEmail()
+    }
+  }, [props.snapShot])
+
   const submit = (e) => {
     e.preventDefault();
-    console.log('submitted')
-    console.log(e)
 
     Array.from(e.target.children).forEach((e) => {
       let input = e.children[1];
@@ -87,11 +90,14 @@ const Form = (props) => {
         }
       }
     });
-    console.log(validInp)
+    
     if (validInp === true) {
-      handleEmail();
+      props.setSubmitted(true)
+      toast.success("submitting... please wait!")
     } 
-    // validInp && handleEmail(); 
+    else{
+      toast.error("something went wrong! try again.")
+    }
   };
 
   return (
@@ -119,20 +125,6 @@ const Form = (props) => {
           Select Name Color:
         </label>
         <HexColorPicker color={props.headingColor} onChange={props.setHeadingColor} />
-      </div>
-
-      <div className="mb-3">
-        <label
-          htmlFor="headingFont"
-          style={{ color: "white" }}
-          className="form-label"
-        >
-          Select Name Color:
-        </label>
-        <select name="headingFont" id="headingFont">
-          <option value="select font">select font</option>
-          {props.fonts.map((e) => <option value={e[0]}>{e[0]}</option>)}
-        </select>
       </div>
 
       <div className="mb-3">
@@ -284,7 +276,6 @@ const Form = (props) => {
         className="py-1 px-3 mt-3 rounded-pill fw-bold fs-5 text-uppercase "
         type="submit"
         ref={submitBtnRef}
-        // disabled={validInp}
       >
         submit
       </button>

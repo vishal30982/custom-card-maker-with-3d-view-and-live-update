@@ -22,15 +22,24 @@ const CardFlip = (props) => {
   async function download () {
     if (downloaded) return
     try {
-      let frontImg = await domtoimage.toPng(frontRef.current);
-      downloadRef.current.href = frontImg;
-      downloadRef.current.download = 'cardFrontDesign.jpg';
+      downloadRef.current.href = props.snapShot;
+      downloadRef.current.download = 'cardDesign.png';
       downloadRef.current.click();
       setDownloaded(true)
     } catch (error) {
       console.error(error)
     }
   }
+
+  useEffect(() => {
+    if(props.submitted) {
+      domtoimage.toBlob(frontRef.current)
+      .then((frontBlob) => {
+        let frontImgUrl = URL.createObjectURL(frontBlob);
+        props.setSnapShot(frontImgUrl);
+      })
+    }
+  }, [props.submitted])
 
 
   const helper = new MoveableHelper();
@@ -185,7 +194,7 @@ const CardFlip = (props) => {
           </div>
         </div>
       </div>
-      <button disabled={downloaded} id="showBtn" onClick={flip}>
+      <button id="showBtn" onClick={flip}>
         Show front/Back Side
       </button> 
       {props.requestStatus === "success" && <a ref={downloadRef} id="downloadBtn" onClick={download}>Download</a>} 
