@@ -5,6 +5,7 @@ import html2canvas from "html2canvas";
 import domtoimage from 'dom-to-image';
 import Moveable from "react-moveable";
 import MoveableHelper from "moveable-helper";
+import { toast } from "react-toastify";
 
 
 const CardFlip = (props) => {
@@ -22,21 +23,34 @@ const CardFlip = (props) => {
   async function download () {
     if (downloaded) return
     try {
-      downloadRef.current.href = props.snapShot;
+      const imgBlob = await domtoimage.toBlob(frontRef.current)
+      const imageUrl = URL.createObjectURL(imgBlob)
+      downloadRef.current.href = imageUrl;
       downloadRef.current.download = 'cardDesign.png';
       downloadRef.current.click();
       setDownloaded(true)
     } catch (error) {
-      console.error(error)
+      toast.error('failed to download design! please take a manual screenshot of it!', {autoClose: 10000})
     }
   }
 
   useEffect(() => {
     if(props.submitted) {
       domtoimage.toBlob(frontRef.current)
-      .then((frontBlob) => {
-        let frontImgUrl = URL.createObjectURL(frontBlob);
-        props.setSnapShot(frontImgUrl);
+      .then((blob) => {
+        const formData = new FormData();
+        formData.append('image', blob, 'cardDesign.png');
+        fetch(process.env.UPLOAD_URL, {
+          method: 'POST',
+          body: formData
+        })
+        .then((response) => response.json())
+        .then((data) => {
+          props.setSnapShot(data.url);
+        })
+        .catch((err) => {
+          toast.error('failed to upload design! please save a copy of your design!', {autoClose: 10000})
+        })
       })
     }
   }, [props.submitted])
@@ -132,7 +146,7 @@ const CardFlip = (props) => {
               onClick={(e) => e.moveable.controlBox.classList.toggle('hide')}
             />}
 
-            <img src={props.logo ? props.logo : "/images/img_placeholder.png"} ref={logoImageRef} alt="no image yet" />
+            <img src={props.logo ? props.logo : "/images/img_placeholder.png"} crossOrigin="anonymous" ref={logoImageRef} alt="no image yet" />
             {(props.requestStatus !== "success" && isMoveable) && <Moveable
               target={logoImageRef.current}
               draggable={true}
@@ -150,7 +164,10 @@ const CardFlip = (props) => {
               onClick={(e) => e.moveable.controlBox.classList.toggle('hide')}
             />}
 
+          </div>
+          <div ref={backRef} id="back" style={{backgroundColor: props.frontColor && props.colorAsFront ? props.frontColor : props.backColor}}>
             <svg
+              style={{position: 'absolute', top: '10px', right: '10px'}}
               xmlns="http://www.w3.org/2000/svg"
               width="30px"
               height="30px"
@@ -188,8 +205,6 @@ const CardFlip = (props) => {
                 strokeLinecap="round"
               />
             </svg>
-          </div>
-          <div ref={backRef} id="back" style={{backgroundColor: props.frontColor && props.colorAsFront ? props.frontColor : props.backColor}}>
             <QRious size={120} value={props.URL} style={{border: '2px solid white', borderRadius: '8px'}}/>
           </div>
         </div>

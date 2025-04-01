@@ -4,6 +4,8 @@ import { useState } from "react";
 import Form from "./Form";
 import CardFlip from "./CardFlip";
 import Result from "./Result";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
 
 function App() {
   const [name, setName] = useState('');
@@ -83,6 +85,7 @@ function App() {
       {requestStatus ? <Result result={requestStatus} /> : <Form {...props[0]} />}
       <br />
       <CardFlip {...props[1]} />
+      <ToastContainer position="bottom-right" />
     </>
   );
 }

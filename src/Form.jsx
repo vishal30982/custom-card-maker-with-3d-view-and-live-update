@@ -1,11 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 import "./form.css";
 import sendEmail from "./Email";
-import PhoneInput, {isPossiblePhoneNumber} from 'react-phone-number-input';
-import 'react-phone-number-input/style.css';
+import PhoneInput, { isPossiblePhoneNumber } from "react-phone-number-input";
+import "react-phone-number-input/style.css";
 import { HexColorPicker } from "react-colorful";
 
 const Form = (props) => {
@@ -18,11 +17,26 @@ const Form = (props) => {
     props.setColorAsBack(!props.colorAsBack);
   }
 
-  function uploadLogo(e) {
+  async function uploadLogo(e) {
     let file = e.target.files[0];
     if (file) {
-      let imageUrl = URL.createObjectURL(file);
-      props.setLogo(imageUrl);
+      const formData = new FormData();
+      formData.append('image', file);
+      try {
+        const fileUpload = await fetch(process.env.UPLOAD_URL, {
+          method: 'POST',
+          body: formData
+        })
+        const data = await fileUpload.json()
+        console.log(data)
+        if(!data.Ok) {
+          throw data.error
+        }
+        props.setLogo(data.url)
+      }
+      catch (err) {
+        toast.error(`Upload failed: ${err || 'Unknown error'}`);
+      }
     }
   }
 
@@ -46,7 +60,7 @@ const Form = (props) => {
       colorAsFront: props.colorAsFront ? "yes" : "no",
       url: props.URL,
       logo: props.logo,
-      snapShot: props.snapShot
+      snapShot: props.snapShot,
     };
     try {
       const emailStatus = await sendEmail(dataToMail);
@@ -57,10 +71,10 @@ const Form = (props) => {
   }
 
   useEffect(() => {
-    if(props.snapShot && validInp) {
-      handleEmail()
+    if (props.snapShot && validInp) {
+      handleEmail();
     }
-  }, [props.snapShot])
+  }, [props.snapShot]);
 
   const submit = (e) => {
     e.preventDefault();
@@ -68,7 +82,7 @@ const Form = (props) => {
     Array.from(e.target.children).forEach((e) => {
       let input = e.children[1];
       if (input?.type === "text") {
-        if(input.value) {
+        if (input.value) {
           let nameRegex = /^.{2,}$/;
           if (!nameRegex.test(input.value)) {
             toast.error("please enter a valid name or designation");
@@ -90,13 +104,12 @@ const Form = (props) => {
         }
       }
     });
-    
+
     if (validInp === true) {
-      props.setSubmitted(true)
-      toast.success("submitting... please wait!")
-    } 
-    else{
-      toast.error("something went wrong! try again.")
+      props.setSubmitted(true);
+      toast.success("submitting... please wait!");
+    } else {
+      toast.error("something went wrong! try again.");
     }
   };
 
@@ -124,7 +137,10 @@ const Form = (props) => {
         >
           Select Name Color:
         </label>
-        <HexColorPicker color={props.headingColor} onChange={props.setHeadingColor} />
+        <HexColorPicker
+          color={props.headingColor}
+          onChange={props.setHeadingColor}
+        />
       </div>
 
       <div className="mb-3">
@@ -152,7 +168,10 @@ const Form = (props) => {
         >
           Select designation Color:
         </label>
-        <HexColorPicker color={props.subheadingColor} onChange={props.setSubheadingColor} />
+        <HexColorPicker
+          color={props.subheadingColor}
+          onChange={props.setSubheadingColor}
+        />
       </div>
 
       <div className="mb-3">
@@ -168,8 +187,8 @@ const Form = (props) => {
           countryCallingCodeEditable={false}
           defaultCountry="IN"
           ref={phoneNumberRef}
-          placeholder={'enter your phone number here...'}
-          onChange={(value) => props.setPhone(value)} 
+          placeholder={"enter your phone number here..."}
+          onChange={(value) => props.setPhone(value)}
           // error={props.phone && isPossiblePhoneNumber(props.phone) ? 'true' : toast.error("please enter a valid phone number")}
         />
       </div>
@@ -182,7 +201,10 @@ const Form = (props) => {
         >
           Select Ph. No. Color:
         </label>
-        <HexColorPicker color={props.phoneColor} onChange={props.setPhoneColor} />
+        <HexColorPicker
+          color={props.phoneColor}
+          onChange={props.setPhoneColor}
+        />
       </div>
 
       <div className="mb-3">
@@ -210,7 +232,10 @@ const Form = (props) => {
         >
           Select Email Color:
         </label>
-        <HexColorPicker color={props.emailColor} onChange={props.setEmailColor} />
+        <HexColorPicker
+          color={props.emailColor}
+          onChange={props.setEmailColor}
+        />
       </div>
 
       <div className="mb-3">
@@ -221,7 +246,10 @@ const Form = (props) => {
         >
           Select Front side Color:{" "}
         </label>
-        <HexColorPicker color={props.frontColor} onChange={props.setFrontColor} />
+        <HexColorPicker
+          color={props.frontColor}
+          onChange={props.setFrontColor}
+        />
         <button
           onClick={sameAsBack}
           className="py-2 px-1 text-bg-info ms-1 d-inline border rounded-2"
@@ -255,7 +283,13 @@ const Form = (props) => {
         >
           Choose Logo:{" "}
         </label>
-        <input type="file" name="logoInput" id="logoInput" onChange={uploadLogo} accept="image/*"/>
+        <input
+          type="file"
+          name="logoInput"
+          id="logoInput"
+          onChange={uploadLogo}
+          accept="image/*"
+        />
       </div>
 
       <div>
@@ -279,8 +313,6 @@ const Form = (props) => {
       >
         submit
       </button>
-
-      <ToastContainer position="bottom-right" />
     </form>
   );
 };
